@@ -1,4 +1,4 @@
-package com.tech.samsetdownloader
+package com.tech.disablecopypaste
 
 import org.junit.Test
 

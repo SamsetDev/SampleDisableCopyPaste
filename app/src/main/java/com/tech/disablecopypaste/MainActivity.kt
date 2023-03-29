@@ -1,12 +1,12 @@
-package com.tech.samsetdownloader
+package com.tech.disablecopypaste
 
 import android.os.Bundle
 import android.text.Editable
-import android.text.Selection
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.tech.samsetdownloader.R
 
 
 class MainActivity : AppCompatActivity() {

@@ -1,7 +1,6 @@
-package com.tech.samsetdownloader.secureView
+package com.tech.disablecopypaste.secureView
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context

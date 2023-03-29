@@ -1,4 +1,4 @@
-package com.tech.samsetdownloader.secureView
+package com.tech.disablecopypaste.secureView
 
 object SecureConst {
     val GBOARD = "com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME"

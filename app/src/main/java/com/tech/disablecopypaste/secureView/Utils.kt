@@ -1,20 +1,15 @@
-package com.tech.samsetdownloader.secureView
+package com.tech.disablecopypaste.secureView
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.tech.samsetdownloader.R
-import com.tech.samsetdownloader.secureView.SecureConst.DEFAULT_GBOARD
-import com.tech.samsetdownloader.secureView.SecureConst.GBOARD
-import com.tech.samsetdownloader.secureView.SecureConst.SAMSUNGBOARD_NEW
-import com.tech.samsetdownloader.secureView.SecureConst.SAMSUNGBOARD_OLD
-import com.tech.samsetdownloader.secureView.SecureConst.SWIFTBOARD
+import com.tech.disablecopypaste.secureView.SecureConst.GBOARD
+import com.tech.disablecopypaste.secureView.SecureConst.SAMSUNGBOARD_NEW
+import com.tech.disablecopypaste.secureView.SecureConst.SAMSUNGBOARD_OLD
+import com.tech.disablecopypaste.secureView.SecureConst.SWIFTBOARD
 
 /*
   Copyright (C) Downloader - All Rights Reserved Ⓒ
