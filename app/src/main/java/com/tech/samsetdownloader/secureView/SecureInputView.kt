@@ -72,9 +72,6 @@ open class SecureInputView : TextInputEditText {
 
     @SuppressLint("NewApi")
     public fun init(context: Context, attrs: AttributeSet?) {
-        //attrs?.let { disableCopyAndPaste(context, it) }
-        var timestamp = 0L
-        //this.disableCopyPaste()
 
         this.customInsertionActionModeCallback= object : ActionMode.Callback{
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -112,17 +109,9 @@ open class SecureInputView : TextInputEditText {
         this.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO)
 
         if (getInputtype(this@SecureInputView)!=InputType.TYPE_TEXT_VARIATION_PASSWORD){
-           // this@SecureInputView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD )
-            Log.e("tag"," TYPE_TEXT_VARIATION_PASSWORD found ")
-        }
-        val clipService = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-        while (clipService.hasPrimaryClip()) {
-            clipService.clearPrimaryClip()
-            Log.e("tag"," set  ")
+            this@SecureInputView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD )
         }
 
-        //clearClipboard(context)
         this.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
