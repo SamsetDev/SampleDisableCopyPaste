@@ -1,0 +1,2 @@
+# SampleDisableCopyPaste
+Disable copy paste
