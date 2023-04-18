@@ -1,17 +1,14 @@
 package com.tech.disablecopypaste.secureView
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
+import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
+import com.tech.disablecopypaste.secureView.Utils.NEW_TYPE_NUMBER_VARIATION_PASSWORD
 
 
 /*
@@ -26,8 +23,6 @@ import com.google.android.material.textfield.TextInputEditText
 
 
 open class SecureInputView : TextInputEditText {
-    var ides:Int=0
-    var status:Boolean=true
     constructor(context: Context) : super(context) {
         init(context, null)
     }
@@ -48,18 +43,9 @@ open class SecureInputView : TextInputEditText {
         return AUTOFILL_TYPE_NONE
     }
 
-     override fun isSuggestionsEnabled() : Boolean
+    public override fun isSuggestionsEnabled() : Boolean
     {
         return false
-    }
-
-    override fun getSelectionStart(): Int {
-        for (element in Thread.currentThread().stackTrace) {
-            if (element.methodName == "canPaste") {
-                return -1
-            }
-        }
-        return super.getSelectionStart()
     }
 
     override fun onTextContextMenuItem(id: Int): Boolean {
@@ -69,21 +55,41 @@ open class SecureInputView : TextInputEditText {
         return super.onTextContextMenuItem(id)
     }
 
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (event.action==MotionEvent.ACTION_DOWN){
+            setInsertionDisabled()
+        }
+        return super.onTouchEvent(event)
+    }
+    private fun setInsertionDisabled() {
+        try {
+            val field= TextView::class.java.getDeclaredField("mEditor")
+            field.isAccessible=true
+            val obj=field.get(this)
+            @SuppressLint("PrivateApi") val editorClass = Class.forName("android.widget.Editor")
+            val classfields=editorClass.getDeclaredField("mInsertionControllerEnabled")
+            classfields.isAccessible=true
+            classfields.set(obj,false)
+        }catch (e:Exception){e.printStackTrace()}
+
+    }
+
     @SuppressLint("NewApi")
     public fun init(context: Context, attrs: AttributeSet?) {
 
-        this.customInsertionActionModeCallback= object : ActionMode.Callback{
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                return false
-            }
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                return false
-            }
-            override fun onActionItemClicked(mode: ActionMode, item: MenuItem?): Boolean {
-                mode.finish()
-                return false
-            }
-            override fun onDestroyActionMode(mode: ActionMode?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            this.customInsertionActionModeCallback= object : ActionMode.Callback{
+                override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                    return false
+                }
+                override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                    return false
+                }
+                override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                    return false
+                }
+                override fun onDestroyActionMode(mode: ActionMode?) {
+                }
             }
         }
         this.customSelectionActionModeCallback = object : ActionMode.Callback{
@@ -93,8 +99,7 @@ open class SecureInputView : TextInputEditText {
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 return false
             }
-            override fun onActionItemClicked(mode: ActionMode, item: MenuItem?): Boolean {
-                mode.finish()
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                 return false
             }
             override fun onDestroyActionMode(mode: ActionMode?) {
@@ -102,80 +107,21 @@ open class SecureInputView : TextInputEditText {
 
         }
 
-
         this.isLongClickable = false
         this.setTextIsSelectable(false)
-        this.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO)
 
-        if (getInputtype(this@SecureInputView)!=InputType.TYPE_TEXT_VARIATION_PASSWORD){
-            this@SecureInputView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD )
+        this@SecureInputView.privateImeOptions="disableToolbar=true"
+        if (Utils.getInputType(this@SecureInputView)!= InputType.TYPE_TEXT_VARIATION_PASSWORD && Utils.getInputType(this@SecureInputView)!=NEW_TYPE_NUMBER_VARIATION_PASSWORD){
+            this@SecureInputView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD or this.inputType )
         }
-
-        this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                if (count!=after && after - count > 1) {
-                    Log.e("tag"," start "+start+" after "+after+" count "+count)
-                     //this@SecureInputView.setText("")
-                    // this@SecureInputView.setSelection(s.toString().length)
-                }
+        this.setOnTouchListener(object : OnTouchListener{
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                this@SecureInputView.clearFocus()
+                return false
             }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-
-
-            }
-            override fun afterTextChanged(s: Editable) {
-
-            }
         })
-    }
 
-
-
-     private fun getInputtype(editText: TextInputEditText) : Int{
-     val strInputType: Int
-     val inputType: Int = editText.getInputType()
-        strInputType = when (inputType) {
-        InputType.TYPE_TEXT_FLAG_CAP_WORDS or InputType.TYPE_CLASS_TEXT -> {
-            InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-        }
-        InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT -> {
-            InputType.TYPE_TEXT_VARIATION_PASSWORD
-        }
-        InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS or InputType.TYPE_CLASS_TEXT -> {
-            InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-        }
-        InputType.TYPE_CLASS_PHONE -> {
-            InputType.TYPE_CLASS_PHONE
-        }
-        InputType.TYPE_CLASS_DATETIME -> {
-            InputType.TYPE_CLASS_DATETIME
-        }
-        InputType.TYPE_CLASS_NUMBER -> {
-            InputType.TYPE_CLASS_NUMBER
-        }
-        InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS -> {
-            InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS
-        }
-        else -> {
-            InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-        }
-    }
-
-         return strInputType
-}
-
-    @SuppressLint("NewApi")
-    fun clearClipboard(activity: Context){
-        val clipService = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            var clip=ClipData.newPlainText("", "")
-            clipService.setPrimaryClip(clip)
-        }else{
-            clipService.text=""
-        }
-        clipService.clearPrimaryClip()
     }
 
 }
