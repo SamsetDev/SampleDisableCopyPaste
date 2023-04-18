@@ -16,26 +16,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input1"
-        android:layout_margin="20dp"
+    <com.tech.disablecopypaste.secureView.SecureInputView
+        android:id="@+id/et_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.tech.disablecopypaste.secureView.SecureInputView
-            android:id="@+id/etinput1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:hint="Enter the name 1 "
-            android:imeOptions="flagNoPersonalizedLearning"
-            android:privateImeOptions="disableToolbar=true"
-            android:maxLength="14"
-            android:importantForAutofill="no"
-            android:longClickable="false" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="wrap_content"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+        android:imeOptions="actionNext"
+        android:inputType="textCapSentences"
+        android:maxLength="25"
+        android:layout_margin="20dp"
+        android:longClickable="false"
+        android:privateImeOptions="disableToolbar=true"
+        android:importantForAutofill="no"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_margin="20dp"
@@ -49,59 +45,7 @@
             android:background="@color/white"
             android:hint="Enter the password 1 "
             android:maxLength="14"
-            android:inputType="textPassword"
-            android:importantForAutofill="no"
-            android:longClickable="false" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.tech.disablecopypaste.secureView.SecureInputView
-            android:id="@+id/etinput22"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:hint="Enter the name 2 "
-            android:maxLength="14"
-            android:importantForAutofill="no"
-            android:longClickable="false" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.tech.disablecopypaste.secureView.SecureInputView
-            android:id="@+id/etinput12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:hint="Enter the name 3 "
-            android:maxLength="14"
-            android:importantForAutofill="no"
-            android:longClickable="false" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.tech.disablecopypaste.secureView.SecureInputView
-            android:id="@+id/etinput3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:hint="Enter the password 3 "
-            android:maxLength="14"
+            android:textColor="@color/black"
             android:inputType="textPassword"
             android:importantForAutofill="no"
             android:longClickable="false" />
@@ -109,20 +53,24 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_margin="20dp"
+        android:id="@+id/input_layout_login_otp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
 
         <com.tech.disablecopypaste.secureView.SecureInputView
-            android:id="@+id/etinput4"
+            android:id="@+id/et_login_otp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
+            android:hint="Hint_enter_otp"
+            android:imeOptions="actionDone"
+            android:inputType="numberPassword|textNoSuggestions"
             android:background="@color/white"
-            android:hint="Enter the password 4 "
-            android:maxLength="14"
-            android:inputType="textPassword"
-            android:importantForAutofill="no"
-            android:longClickable="false" />
+            android:textColor="@color/black"
+            android:maxLength="6"
+            android:padding="10dp"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
