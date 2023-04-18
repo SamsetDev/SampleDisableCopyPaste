@@ -1,5 +1,5 @@
 # SampleDisableCopyPaste
-Disable copy paste
+ In this sample i am handling disable copy paste in EditText as well as desable clipboard. This is working fine for all devices.
 
 
 Normally you achive this functionlity with this code
